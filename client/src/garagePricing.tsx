@@ -1,5 +1,5 @@
 import  { useState } from 'react';
-import logo from './assets/logo.png';
+import logo from './assets/Hipposautospa-logo.png';
 
 const categories = ['Colour & Repair', 'Clean & Shine', 'Coat & Guard'] as const;
 
