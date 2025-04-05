@@ -1,4 +1,5 @@
 import  { useState } from 'react';
+import logo from './assets/logo.png';
 
 const categories = ['Colour & Repair', 'Clean & Shine', 'Coat & Guard'] as const;
 
@@ -77,7 +78,7 @@ export default function PricingConfigurator() {
     <div className=" bg-gray-100 p-6 flex flex-col items-center justify-center">
            <div className="flex items-left mb-8">
           <img
-            src="/src/assets/Hipposautospa-logo.png" 
+            src={logo} 
             alt="Garage Logo"
             className="w-12 h-12 mr-4"
           />
