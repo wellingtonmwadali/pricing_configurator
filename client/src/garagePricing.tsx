@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 const categories = ['Colour & Repair', 'Clean & Shine', 'Coat & Guard'] as const;
 
@@ -71,7 +71,7 @@ export default function PricingConfigurator() {
     console.log('Submitting form:', form);
   };
 
-  const steps = ['Category', 'Services', 'Details'];
+  // const steps = ['Category', 'Services', 'Details'];
 
   return (
     <div className=" bg-gray-100 p-6 flex flex-col items-center justify-center">
