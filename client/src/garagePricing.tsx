@@ -89,13 +89,13 @@ const vehicleTypes = [
 ] as const;
 
 const conditions = ['New', 'Good', 'Minor scratches', 'Dents'] as const;
-const paintTypes = ['Normal', 'Metallic', 'Pearl', 'Custom'] as const;
+type PaintType = 'Normal' | 'Metallic' | 'Pearl' | 'Custom';
 const urgencyOptions = ['Standard', 'Express'] as const;
 
 type Category = (typeof categories)[number];
 type VehicleType = (typeof vehicleTypes)[number];
 type Condition = (typeof conditions)[number];
-type PaintType = (typeof paintTypes)[number];
+// Removed redundant type definition since PaintType is now directly defined.
 type Urgency = (typeof urgencyOptions)[number];
 
 interface PricingForm {
@@ -355,107 +355,106 @@ export default function PricingConfigurator() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-4xl relative">
-          <div className="flex items-center justify-center mb-8">
+  <div className="fixed inset-0 bg-gray-200 flex items-center justify-center z-50 p-4">
+    <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+      <div className="flex items-center justify-center mb-8">
         <img src={logo} alt="Garage Logo" className="w-12 h-12 mr-4" />
       </div>
-            <h2 className="text-2xl font-bold text-center mb-6">PRICING SUMMARY</h2>
-            <p className="text-center text-gray-600 mb-6">to receive this quote on Whats App, complete the form below this table</p>
-            
-            {/* Pricing Table */}
-            <div className="overflow-x-auto mb-6">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="py-2 px-4 text-left border">#</th>
-                    <th className="py-2 px-4 text-left border">DESCRIPTION</th>
-                    <th className="py-2 px-4 text-left border">UNIT</th>
-                    <th className="py-2 px-4 text-left border">QUANTITY</th>
-                    <th className="py-2 px-4 text-right border">TOTAL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {form.selectedServices.map((service, index) => (
-                    <tr key={service} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                      <td className="py-2 px-4 border">{index + 1}</td>
-                      <td className="py-2 px-4 border text-blue-500">{service}</td>
-                      <td className="py-2 px-4 border text-right">{servicePrices[service as keyof typeof servicePrices]?.toLocaleString()}</td>
-                      <td className="py-2 px-4 border text-center">1</td>
-                      <td className="py-2 px-4 border text-right bg-blue-500 text-white">{servicePrices[service as keyof typeof servicePrices]?.toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colSpan={4} className="py-2 px-4 border text-right">SUBTOTAL</td>
-                    <td className="py-2 px-4 border text-right">KES {subtotal.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td colSpan={4} className="py-2 px-4 border text-right">TAX 16%</td>
-                    <td className="py-2 px-4 border text-right">KES {tax.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td colSpan={4} className="py-2 px-4 border text-right font-bold">GRAND TOTAL</td>
-                    <td className="py-2 px-4 border text-right text-blue-500 font-bold">KES {total.toLocaleString()}</td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            
-            <button
-              onClick={() => {
-                alert('Appointment booked!');
-                setShowModal(false);
-              }}
-              className="w-full bg-cyan-500 text-white py-3 rounded-lg font-semibold hover:bg-cyan-600 mb-6"
-            >
-              ✓ Book appointment now
-            </button>
-            
-            <h3 className="text-xl font-bold text-center mb-4">RECEIVE THIS QUOTE ON Email</h3>
-            
-            <div className="space-y-4 mb-6">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your name"
-                className="w-full p-4 border border-gray-200 rounded-lg"
-              />
-              
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-               
-                placeholder="Your Email"
-                className="w-full p-4 border border-gray-200 rounded-lg"
-              />
-            </div>
+      <h2 className="text-2xl font-bold text-center mb-6">PRICING SUMMARY</h2>
+      <p className="text-center text-gray-600 mb-6">to receive this quote on Whats App, complete the form below this table</p>
       
-            <div className="flex justify-between gap-4">
-              <a
-                href={`https://wa.me/254710256557?text=${encodeURIComponent(
-                  `Hello, I'd like to book an appointment for the following:\n\nVehicle: ${form.vehicleType}\nCondition: ${form.condition}\nUrgency: ${form.urgency}\nCategory: ${form.category}\nServices: ${form.selectedServices.join(', ')}\nSubtotal: KES ${subtotal}\nTax (16%): KES ${tax}\nTotal: KES ${total}\nNotes: ${form.notes}`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-green-600 text-white py-2 px-4 rounded-lg font-semibold text-center hover:bg-green-700 flex-1"
-              >
-                Book via WhatsApp
-              </a>
+      {/* Pricing Table */}
+      <div className="overflow-x-auto mb-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="py-2 px-4 text-left border">#</th>
+              <th className="py-2 px-4 text-left border">DESCRIPTION</th>
+              <th className="py-2 px-4 text-left border">UNIT</th>
+              <th className="py-2 px-4 text-left border">QUANTITY</th>
+              <th className="py-2 px-4 text-right border">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            {form.selectedServices.map((service, index) => (
+              <tr key={service} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                <td className="py-2 px-4 border">{index + 1}</td>
+                <td className="py-2 px-4 border text-blue-500">{service}</td>
+                <td className="py-2 px-4 border text-right">{servicePrices[service as keyof typeof servicePrices]?.toLocaleString()}</td>
+                <td className="py-2 px-4 border text-center">1</td>
+                <td className="py-2 px-4 border text-right bg-blue-500 text-white">{servicePrices[service as keyof typeof servicePrices]?.toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4} className="py-2 px-4 border text-right">SUBTOTAL</td>
+              <td className="py-2 px-4 border text-right">KES {subtotal.toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className="py-2 px-4 border text-right">TAX 16%</td>
+              <td className="py-2 px-4 border text-right">KES {tax.toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td colSpan={4} className="py-2 px-4 border text-right font-bold">GRAND TOTAL</td>
+              <td className="py-2 px-4 border text-right text-blue-500 font-bold">KES {total.toLocaleString()}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
       
-              <button
-                onClick={() => setShowModal(false)}
-                className="bg-gray-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-600 flex-1"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <button
+        onClick={() => {
+          alert('Appointment booked!');
+          setShowModal(false);
+        }}
+        className="w-full bg-cyan-500 text-white py-3 rounded-lg font-semibold hover:bg-cyan-600 mb-6"
+      >
+        ✓ Book appointment now
+      </button>
+      
+      <h3 className="text-xl font-bold text-center mb-4">RECEIVE THIS QUOTE ON Email</h3>
+      
+      <div className="space-y-4 mb-6">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your name"
+          className="w-full p-4 border border-gray-200 rounded-lg"
+        />
+        
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          placeholder="Your Email"
+          className="w-full p-4 border border-gray-200 rounded-lg"
+        />
+      </div>
+
+      <div className="flex justify-between gap-4">
+        <a
+          href={`https://wa.me/254710256557?text=${encodeURIComponent(
+            `Hello, I'd like to book an appointment for the following:\n\nVehicle: ${form.vehicleType}\nCondition: ${form.condition}\nUrgency: ${form.urgency}\nCategory: ${form.category}\nServices: ${form.selectedServices.join(', ')}\nSubtotal: KES ${subtotal}\nTax (16%): KES ${tax}\nTotal: KES ${total}\nNotes: ${form.notes}`
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-green-600 text-white py-2 px-4 rounded-lg font-semibold text-center hover:bg-green-700 flex-1"
+        >
+          Book via WhatsApp
+        </a>
+
+        <button
+          onClick={() => setShowModal(false)}
+          className="bg-gray-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-600 flex-1"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
